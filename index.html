@@ -57,63 +57,139 @@
   /* ---------- PIN GATE ---------- */
   #gate{
     position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
-    background:radial-gradient(900px 500px at 50% 0%,rgba(124,92,255,.30),transparent 60%),var(--bg);
+    background:var(--bg);
     overflow-y:auto;-webkit-overflow-scrolling:touch;
-    padding:20px 16px calc(20px + env(safe-area-inset-bottom));
+    padding:24px 16px calc(24px + env(safe-area-inset-bottom));
+  }
+  .gate-bg{
+    position:fixed;inset:0;pointer-events:none;overflow:hidden;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%,rgba(124,92,255,.32),transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 80%,rgba(35,166,213,.18),transparent 50%),
+      radial-gradient(ellipse 50% 35% at 0% 60%,rgba(251,191,36,.10),transparent 45%);
+  }
+  .gate-orb{
+    position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;
+    animation:gateFloat 12s ease-in-out infinite;
+  }
+  .gate-orb-1{width:280px;height:280px;background:rgba(124,92,255,.35);top:-80px;left:50%;transform:translateX(-50%)}
+  .gate-orb-2{width:200px;height:200px;background:rgba(35,166,213,.28);bottom:10%;right:-40px;animation-delay:-4s}
+  .gate-orb-3{width:160px;height:160px;background:rgba(251,191,36,.15);bottom:25%;left:-30px;animation-delay:-8s}
+  @keyframes gateFloat{
+    0%,100%{transform:translateY(0) scale(1)}
+    50%{transform:translateY(-12px) scale(1.04)}
+  }
+  .gate-orb-1{animation-name:gateFloatCenter}
+  @keyframes gateFloatCenter{
+    0%,100%{transform:translateX(-50%) translateY(0) scale(1)}
+    50%{transform:translateX(-50%) translateY(-14px) scale(1.05)}
   }
   .gate-card{
-    width:min(440px,92vw);background:var(--card-solid);border:1px solid var(--stroke);
-    border-radius:24px;padding:28px 24px 22px;text-align:center;box-shadow:var(--shadow);
-    margin:auto;
+    position:relative;width:min(420px,94vw);
+    background:linear-gradient(165deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.02) 100%);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:28px;padding:0 0 22px;text-align:center;
+    box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08);
+    margin:auto;overflow:hidden;
+    animation:gateIn .5s cubic-bezier(.22,1,.36,1) both;
   }
-  .logo{font-size:34px;font-weight:800;letter-spacing:-.5px}
+  @keyframes gateIn{
+    from{opacity:0;transform:translateY(20px) scale(.97)}
+    to{opacity:1;transform:none}
+  }
+  .gate-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,#7c5cff,#23a6d5,#34d399,#fbbf24);
+  }
+  .gate-hero{
+    padding:28px 24px 20px;
+    background:linear-gradient(180deg,rgba(124,92,255,.12) 0%,transparent 100%);
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .gate-mark{
+    width:56px;height:56px;margin:0 auto 14px;border-radius:18px;
+    background:var(--accent);display:grid;place-items:center;font-size:26px;
+    box-shadow:0 12px 32px rgba(124,92,255,.4);
+  }
+  .logo{font-size:32px;font-weight:800;letter-spacing:-.6px;line-height:1.1}
   .logo span{background:var(--accent);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .gate-card > p{color:var(--muted);margin:6px 0 12px;font-size:14px}
-  .gate-family-strip{
-    display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin:0 0 14px;padding:0 4px;
+  .gate-badge{
+    display:inline-block;margin-top:10px;padding:5px 14px;border-radius:999px;
+    font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--violet);background:rgba(124,92,255,.15);border:1px solid rgba(124,92,255,.25);
   }
-  .gate-family-strip .gp{
-    width:30px;height:30px;border-radius:50%;overflow:hidden;border:2px solid var(--card-solid);
-    background:#0e1130;display:grid;place-items:center;font-weight:800;font-size:11px;color:#fff;
-    box-shadow:0 2px 8px rgba(0,0,0,.3);flex:none;
+  .gate-body{padding:20px 20px 0}
+  .gate-sub{color:var(--muted);font-size:13.5px;font-weight:600;margin:0 0 14px}
+  .gate-members-wrap{
+    position:relative;margin:0 0 14px;
+    mask-image:linear-gradient(90deg,transparent,black 8px,black calc(100% - 8px),transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,black 8px,black calc(100% - 8px),transparent);
   }
-  .gate-family-strip .gp img{width:100%;height:100%;object-fit:cover}
-  .gate-selected-name{
-    font-size:13px;font-weight:700;color:var(--violet);min-height:18px;margin:0 0 10px;
-  }
-  .gate-selected-name:empty{display:none}
-  .pin-input{
-    width:100%;text-align:center;letter-spacing:10px;font-size:22px;font-weight:700;
-    padding:13px 12px;border-radius:14px;border:1px solid var(--stroke);background:#0e1130;color:var(--text);
-  }
-  .pin-input:focus{outline:none;border-color:var(--violet)}
-  .gate-pin-label{color:var(--muted);font-size:13px;margin:0 0 8px;text-align:left}
-  .gate-pin-row{display:flex;flex-direction:column;gap:10px;margin-top:0}
-  .btn{
-    border:none;cursor:pointer;font-family:inherit;font-weight:700;color:#fff;
-    background:var(--accent);padding:14px 18px;border-radius:14px;font-size:16px;width:100%;margin-top:0;
-    transition:transform .12s ease,filter .12s ease;
-  }
-  .btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
-  .gate-unlock{min-height:48px}
-  .gate-err{color:var(--red);font-size:13px;min-height:18px;margin-top:8px;text-align:center}
   .gate-member-pick{
-    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:8px;margin:0 0 12px;
-    overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 2px 8px;
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:10px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 8px 10px;
     scrollbar-width:none;
   }
   .gate-member-pick::-webkit-scrollbar{display:none}
   .gate-mpick{
-    display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;border-radius:14px;
-    border:2px solid var(--stroke);background:#0e1130;color:var(--text);font-family:inherit;
-    font-weight:700;font-size:10px;cursor:pointer;transition:.14s;flex:0 0 auto;min-width:54px;
+    display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 6px 7px;
+    border-radius:16px;border:2px solid rgba(255,255,255,.08);
+    background:rgba(14,17,48,.75);color:var(--text);font-family:inherit;
+    font-weight:700;font-size:10px;cursor:pointer;transition:.18s ease;flex:0 0 auto;min-width:58px;
   }
-  .gate-mpick:hover{border-color:rgba(124,92,255,.45)}
-  .gate-mpick.active{border-color:var(--violet);background:rgba(124,92,255,.18);box-shadow:0 0 0 1px rgba(124,92,255,.35)}
-  .gate-mpick span{max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
-  .gate-mpick-av{width:36px;height:36px;border-radius:50%;overflow:hidden;display:grid;place-items:center;
-    font-size:14px;font-weight:800;color:#fff}
+  .gate-mpick:hover{border-color:rgba(124,92,255,.4);transform:translateY(-2px)}
+  .gate-mpick.active{
+    border-color:var(--pick-color,var(--violet));
+    background:color-mix(in srgb,var(--pick-color,var(--violet)) 18%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--pick-color,var(--violet)) 40%,transparent),
+                0 8px 24px rgba(0,0,0,.3);
+    transform:translateY(-2px) scale(1.04);
+  }
+  .gate-mpick span{max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2;color:var(--muted)}
+  .gate-mpick.active span{color:var(--text)}
+  .gate-mpick-av{
+    width:40px;height:40px;border-radius:50%;overflow:hidden;display:grid;place-items:center;
+    font-size:15px;font-weight:800;color:#fff;
+    box-shadow:0 4px 12px rgba(0,0,0,.35);
+  }
+  .gate-mpick.active .gate-mpick-av{box-shadow:0 0 0 2px var(--pick-color,var(--violet)),0 6px 16px rgba(0,0,0,.4)}
   .gate-mpick-av img{width:100%;height:100%;object-fit:cover}
+  .gate-selected-name{min-height:0;margin:0 0 16px;display:flex;justify-content:center}
+  .gate-selected-name:empty{display:none}
+  .gate-selected-pill{
+    display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;
+    border-radius:999px;background:rgba(124,92,255,.14);border:1px solid rgba(124,92,255,.3);
+    font-size:13px;font-weight:700;color:var(--text);
+    animation:gateIn .3s ease both;
+  }
+  .gate-selected-av{width:28px;height:28px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;flex:none}
+  .gate-selected-av img{width:100%;height:100%;object-fit:cover}
+  .gate-pin-box{
+    background:rgba(14,17,48,.6);border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;padding:14px;margin:0 0 4px;
+  }
+  .gate-pin-label{
+    display:block;color:var(--muted);font-size:12px;font-weight:700;
+    letter-spacing:.3px;margin:0 0 10px;text-align:left;
+  }
+  .gate-pin-row{display:flex;flex-direction:column;gap:10px}
+  .pin-input{
+    width:100%;text-align:center;letter-spacing:12px;font-size:22px;font-weight:800;
+    padding:14px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.10);
+    background:rgba(0,0,0,.25);color:var(--text);font-family:inherit;
+    transition:border-color .15s,box-shadow .15s;
+  }
+  .pin-input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,92,255,.2)}
+  .pin-input::placeholder{color:rgba(154,160,199,.25);letter-spacing:8px}
+  .btn{
+    border:none;cursor:pointer;font-family:inherit;font-weight:700;color:#fff;
+    background:var(--accent);padding:14px 18px;border-radius:14px;font-size:16px;width:100%;margin-top:0;
+    transition:transform .12s ease,filter .12s ease,box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 8px 24px rgba(124,92,255,.35)}
+  .gate-unlock{min-height:50px;font-size:15px;letter-spacing:.2px}
+  .gate-err{color:var(--red);font-size:13px;min-height:18px;margin-top:10px;text-align:center;padding:0 20px}
   .user-pill{
     display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--stroke);
     padding:5px 12px 5px 5px;border-radius:999px;font-size:12px;font-weight:700;color:var(--text);
@@ -526,15 +602,18 @@
     .hf-label{display:none}
     .header-family-btn{padding:4px 8px 4px 4px}
     #loggedInName{display:none}
-    #gate{align-items:flex-start;padding-top:max(16px,env(safe-area-inset-top))}
-    .gate-card{padding:20px 16px 18px;width:min(440px,94vw)}
-    .logo{font-size:28px}
-    .gate-family-strip .gp{width:28px;height:28px}
-    .gate-mpick-av{width:34px;height:34px}
-    .gate-mpick{min-width:50px;padding:5px 3px}
+    #gate{align-items:flex-start;padding-top:max(12px,env(safe-area-inset-top))}
+    .gate-card{width:min(420px,96vw);border-radius:24px}
+    .gate-hero{padding:22px 18px 16px}
+    .gate-mark{width:50px;height:50px;font-size:24px;margin-bottom:12px}
+    .logo{font-size:27px}
+    .gate-body{padding:16px 16px 0}
+    .gate-mpick-av{width:38px;height:38px}
+    .gate-mpick{min-width:56px}
     .gate-pin-row{flex-direction:row;align-items:stretch;gap:8px}
-    .pin-input{flex:1;min-width:0;font-size:20px;padding:12px 8px;letter-spacing:8px}
-    .gate-unlock{width:auto;min-width:108px;flex:none;padding:12px 14px;font-size:15px}
+    .pin-input{flex:1;min-width:0;font-size:20px;padding:13px 8px;letter-spacing:10px}
+    .gate-unlock{width:auto;min-width:112px;flex:none;padding:13px 16px;font-size:14px}
+    .gate-pin-box{padding:12px}
     .brand h1{font-size:19px}
     .brand small{font-size:11px}
     .pill{font-size:11px;padding:6px 10px}
@@ -552,18 +631,32 @@
 
 <!-- ====== PIN GATE ====== -->
 <div id="gate">
+  <div class="gate-bg" aria-hidden="true">
+    <div class="gate-orb gate-orb-1"></div>
+    <div class="gate-orb gate-orb-2"></div>
+    <div class="gate-orb gate-orb-3"></div>
+  </div>
   <div class="gate-card">
-    <div class="logo">Hisab<span>·</span>Khata</div>
-    <p>Family Common Fund · tap your name</p>
-    <div id="gateFamilyStrip" class="gate-family-strip"></div>
-    <div id="gateMemberPick" class="gate-member-pick"></div>
-    <p id="gateSelectedName" class="gate-selected-name"></p>
-    <p class="gate-pin-label">Enter family PIN</p>
-    <div class="gate-pin-row">
-      <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off" />
-      <button type="button" class="btn gate-unlock" onclick="checkPin()">Unlock</button>
+    <div class="gate-hero">
+      <div class="gate-mark">📒</div>
+      <div class="logo">Hisab<span>·</span>Khata</div>
+      <div class="gate-badge">Sur Family Fund</div>
     </div>
-    <div id="gateErr" class="gate-err"></div>
+    <div class="gate-body">
+      <p class="gate-sub">Tap your photo to sign in</p>
+      <div class="gate-members-wrap">
+        <div id="gateMemberPick" class="gate-member-pick"></div>
+      </div>
+      <div id="gateSelectedName" class="gate-selected-name"></div>
+      <div class="gate-pin-box">
+        <label class="gate-pin-label" for="pinInput">Enter family PIN</label>
+        <div class="gate-pin-row">
+          <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off" />
+          <button type="button" class="btn gate-unlock" onclick="checkPin()">Unlock →</button>
+        </div>
+      </div>
+      <div id="gateErr" class="gate-err"></div>
+    </div>
   </div>
 </div>
 
@@ -1136,23 +1229,17 @@ function updateGateSelectedName(){
   const el=document.getElementById("gateSelectedName");
   if(!el) return;
   const m=getSelectedGateMember();
-  el.textContent=m?`Signing in as ${m}`:"";
-}
-function renderGateFamilyStrip(){
-  const el=document.getElementById("gateFamilyStrip"); if(!el) return;
-  el.innerHTML=allMembers().map((m,i)=>{
-    const url=photoOf(m), color=MEMBER_COLORS[i%MEMBER_COLORS.length];
-    const inner=url?`<img src="${url}" alt="${m}" onerror="this.style.display='none';this.parentNode.textContent='${m[0]}'">`:m[0];
-    return `<div class="gp" style="background:${color}" title="${m}">${inner}</div>`;
-  }).join("");
+  if(!m){ el.innerHTML=""; return; }
+  const i=memberIndex(m);
+  el.innerHTML=`<span class="gate-selected-pill">${avatarHTML(m,i,"gate-selected-av")}<span>${m}</span></span>`;
 }
 function renderGateMembers(){
   const el=document.getElementById("gateMemberPick"); if(!el) return;
-  renderGateFamilyStrip();
   const last=localStorage.getItem(USER_LAST_KEY)||"";
   el.innerHTML=allMembers().map((m,i)=>{
     const active=m===last?" active":"";
-    return `<button type="button" class="gate-mpick${active}" data-member="${m}">${avatarHTML(m,i,"gate-mpick-av")}<span>${m}</span></button>`;
+    const color=MEMBER_COLORS[i%MEMBER_COLORS.length];
+    return `<button type="button" class="gate-mpick${active}" data-member="${m}" style="--pick-color:${color}">${avatarHTML(m,i,"gate-mpick-av")}<span>${m}</span></button>`;
   }).join("");
   el.querySelectorAll(".gate-mpick").forEach(btn=>{
     btn.onclick=()=>{
