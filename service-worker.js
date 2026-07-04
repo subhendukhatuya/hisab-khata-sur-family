@@ -1,6 +1,6 @@
 /* Hisab-Khata service worker — makes the site installable & launchable offline.
    Bump CACHE_VERSION whenever you change index.html or assets so phones pick it up. */
-const CACHE_VERSION = "hisab-khata-sur-v1";
+const CACHE_VERSION = "hisab-khata-sur-v2";
 
 // App shell that should be available offline.
 const PRECACHE = [
@@ -16,7 +16,9 @@ const PRECACHE = [
   "./photos/Rakesh.jpg",
   "./photos/Moumita.jpg",
   "./photos/Anindita.png",
-  "./photos/Madhumita.jpg"
+  "./photos/Madhumita.jpg",
+  "./photos/Mukulmala.png",
+  "./photos/Madhu.png"
 ];
 
 self.addEventListener("install", (e) => {

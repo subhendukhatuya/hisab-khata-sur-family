@@ -920,7 +920,7 @@ const CONFIG = {
   PIN: "2026",
 
   // Crediting / expense members.
-  MEMBERS: ["Debkumar", "Shibkumar", "Rajesh", "Rakesh", "Moumita", "Anindita", "Madhumita"],
+  MEMBERS: ["Debkumar", "Shibkumar", "Rajesh", "Rakesh", "Moumita", "Anindita", "Madhumita", "Mukulmala", "Madhu"],
 
   // Savings-only members (shown only when recording a Saving entry).
   SAVINGS_MEMBERS: [],
@@ -933,7 +933,9 @@ const CONFIG = {
     "Rakesh":    "photos/Rakesh.jpg",
     "Moumita":   "photos/Moumita.jpg",
     "Anindita":  "photos/Anindita.png",
-    "Madhumita": "photos/Madhumita.jpg"
+    "Madhumita": "photos/Madhumita.jpg",
+    "Mukulmala": "photos/Mukulmala.png",
+    "Madhu":     "photos/Madhu.png"
   }
 };
 // Returns a member's photo URL, or "" if none set.
@@ -947,7 +949,7 @@ const membersForFlow = (flow, includeMember) => {
 };
 const memberIndex = m => Math.max(0, allMembers().indexOf(m));
 
-const CREDIT_ACCOUNTS = ["Cash", "Common Account", "Debkumar Account", "Shibkumar Account", "Rajesh Account", "Rakesh Account", "Moumita Account", "Anindita Account", "Madhumita Account"];
+const CREDIT_ACCOUNTS = ["Cash", "Common Account", "Debkumar Account", "Shibkumar Account", "Rajesh Account", "Rakesh Account", "Moumita Account", "Anindita Account", "Madhumita Account", "Mukulmala Account", "Madhu Account"];
 
 const CATEGORIES = {
   Credit:     ["Salary deposit","Bonus","Rental income","Interest received","Refund","Gift received","Other income"],
@@ -959,7 +961,7 @@ const ASSET_COLORS = {
   "Stocks / Shares":"#fb7185","Gold":"#fbbf24","Land / Property":"#f97316",
   "Insurance (LIC/Term)":"#a78bfa","PPF / EPF":"#22d3ee","Emergency savings":"#4ade80","Other investment":"#94a3b8"
 };
-const MEMBER_COLORS = ["#7c5cff","#23a6d5","#fbbf24","#fb7185","#34d399","#a78bfa","#22d3ee"];
+const MEMBER_COLORS = ["#7c5cff","#23a6d5","#fbbf24","#fb7185","#34d399","#a78bfa","#22d3ee","#f97316","#4ade80"];
 const fmt = n => "₹" + Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:0});
 const DEMO_KEY = "hisabkhata_sur_demo";
 const HISTORY_KEY = "hisabkhata_sur_history";
