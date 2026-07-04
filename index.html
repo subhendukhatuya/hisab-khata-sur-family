@@ -58,41 +58,61 @@
   #gate{
     position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
     background:radial-gradient(900px 500px at 50% 0%,rgba(124,92,255,.30),transparent 60%),var(--bg);
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:20px 16px calc(20px + env(safe-area-inset-bottom));
   }
   .gate-card{
     width:min(440px,92vw);background:var(--card-solid);border:1px solid var(--stroke);
-    border-radius:24px;padding:34px 28px;text-align:center;box-shadow:var(--shadow);
+    border-radius:24px;padding:28px 24px 22px;text-align:center;box-shadow:var(--shadow);
+    margin:auto;
   }
   .logo{font-size:34px;font-weight:800;letter-spacing:-.5px}
   .logo span{background:var(--accent);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .gate-card p{color:var(--muted);margin:8px 0 18px;font-size:14px}
-  .gate-family{display:flex;justify-content:center;margin:0 0 22px}
-  .gate-family .gp{width:50px;height:50px;border-radius:50%;overflow:hidden;border:3px solid var(--card-solid);
-    margin-left:-12px;background:#0e1130;display:grid;place-items:center;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.35)}
-  .gate-family .gp:first-child{margin-left:0}
-  .gate-family .gp img{width:100%;height:100%;object-fit:cover}
+  .gate-card > p{color:var(--muted);margin:6px 0 12px;font-size:14px}
+  .gate-family-strip{
+    display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin:0 0 14px;padding:0 4px;
+  }
+  .gate-family-strip .gp{
+    width:30px;height:30px;border-radius:50%;overflow:hidden;border:2px solid var(--card-solid);
+    background:#0e1130;display:grid;place-items:center;font-weight:800;font-size:11px;color:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.3);flex:none;
+  }
+  .gate-family-strip .gp img{width:100%;height:100%;object-fit:cover}
+  .gate-selected-name{
+    font-size:13px;font-weight:700;color:var(--violet);min-height:18px;margin:0 0 10px;
+  }
+  .gate-selected-name:empty{display:none}
   .pin-input{
-    width:100%;text-align:center;letter-spacing:10px;font-size:24px;font-weight:700;
-    padding:14px;border-radius:14px;border:1px solid var(--stroke);background:#0e1130;color:var(--text);
+    width:100%;text-align:center;letter-spacing:10px;font-size:22px;font-weight:700;
+    padding:13px 12px;border-radius:14px;border:1px solid var(--stroke);background:#0e1130;color:var(--text);
   }
   .pin-input:focus{outline:none;border-color:var(--violet)}
+  .gate-pin-label{color:var(--muted);font-size:13px;margin:0 0 8px;text-align:left}
+  .gate-pin-row{display:flex;flex-direction:column;gap:10px;margin-top:0}
   .btn{
     border:none;cursor:pointer;font-family:inherit;font-weight:700;color:#fff;
-    background:var(--accent);padding:15px 18px;border-radius:14px;font-size:16.5px;width:100%;margin-top:14px;
+    background:var(--accent);padding:14px 18px;border-radius:14px;font-size:16px;width:100%;margin-top:0;
     transition:transform .12s ease,filter .12s ease;
   }
   .btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
-  .gate-err{color:var(--red);font-size:13px;height:16px;margin-top:10px}
-  .gate-member-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 20px}
+  .gate-unlock{min-height:48px}
+  .gate-err{color:var(--red);font-size:13px;min-height:18px;margin-top:8px;text-align:center}
+  .gate-member-pick{
+    display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:8px;margin:0 0 12px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 2px 8px;
+    scrollbar-width:none;
+  }
+  .gate-member-pick::-webkit-scrollbar{display:none}
   .gate-mpick{
-    display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:16px;
+    display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;border-radius:14px;
     border:2px solid var(--stroke);background:#0e1130;color:var(--text);font-family:inherit;
-    font-weight:700;font-size:12px;cursor:pointer;transition:.14s
+    font-weight:700;font-size:10px;cursor:pointer;transition:.14s;flex:0 0 auto;min-width:54px;
   }
   .gate-mpick:hover{border-color:rgba(124,92,255,.45)}
   .gate-mpick.active{border-color:var(--violet);background:rgba(124,92,255,.18);box-shadow:0 0 0 1px rgba(124,92,255,.35)}
-  .gate-mpick-av{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;
-    font-size:18px;font-weight:800;color:#fff}
+  .gate-mpick span{max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
+  .gate-mpick-av{width:36px;height:36px;border-radius:50%;overflow:hidden;display:grid;place-items:center;
+    font-size:14px;font-weight:800;color:#fff}
   .gate-mpick-av img{width:100%;height:100%;object-fit:cover}
   .user-pill{
     display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--stroke);
@@ -506,7 +526,15 @@
     .hf-label{display:none}
     .header-family-btn{padding:4px 8px 4px 4px}
     #loggedInName{display:none}
-    .gate-member-pick{grid-template-columns:repeat(2,1fr)}
+    #gate{align-items:flex-start;padding-top:max(16px,env(safe-area-inset-top))}
+    .gate-card{padding:20px 16px 18px;width:min(440px,94vw)}
+    .logo{font-size:28px}
+    .gate-family-strip .gp{width:28px;height:28px}
+    .gate-mpick-av{width:34px;height:34px}
+    .gate-mpick{min-width:50px;padding:5px 3px}
+    .gate-pin-row{flex-direction:row;align-items:stretch;gap:8px}
+    .pin-input{flex:1;min-width:0;font-size:20px;padding:12px 8px;letter-spacing:8px}
+    .gate-unlock{width:auto;min-width:108px;flex:none;padding:12px 14px;font-size:15px}
     .brand h1{font-size:19px}
     .brand small{font-size:11px}
     .pill{font-size:11px;padding:6px 10px}
@@ -526,12 +554,16 @@
 <div id="gate">
   <div class="gate-card">
     <div class="logo">Hisab<span>·</span>Khata</div>
-    <p>Family Common Fund · who are you?</p>
+    <p>Family Common Fund · tap your name</p>
+    <div id="gateFamilyStrip" class="gate-family-strip"></div>
     <div id="gateMemberPick" class="gate-member-pick"></div>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Enter family PIN</p>
-    <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="8" placeholder="••••" />
+    <p id="gateSelectedName" class="gate-selected-name"></p>
+    <p class="gate-pin-label">Enter family PIN</p>
+    <div class="gate-pin-row">
+      <input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off" />
+      <button type="button" class="btn gate-unlock" onclick="checkPin()">Unlock</button>
+    </div>
     <div id="gateErr" class="gate-err"></div>
-    <button class="btn" onclick="checkPin()">Unlock</button>
   </div>
 </div>
 
@@ -1100,8 +1132,23 @@ function switchUser(){
 function getSelectedGateMember(){
   return document.querySelector(".gate-mpick.active")?.dataset.member||"";
 }
+function updateGateSelectedName(){
+  const el=document.getElementById("gateSelectedName");
+  if(!el) return;
+  const m=getSelectedGateMember();
+  el.textContent=m?`Signing in as ${m}`:"";
+}
+function renderGateFamilyStrip(){
+  const el=document.getElementById("gateFamilyStrip"); if(!el) return;
+  el.innerHTML=allMembers().map((m,i)=>{
+    const url=photoOf(m), color=MEMBER_COLORS[i%MEMBER_COLORS.length];
+    const inner=url?`<img src="${url}" alt="${m}" onerror="this.style.display='none';this.parentNode.textContent='${m[0]}'">`:m[0];
+    return `<div class="gp" style="background:${color}" title="${m}">${inner}</div>`;
+  }).join("");
+}
 function renderGateMembers(){
   const el=document.getElementById("gateMemberPick"); if(!el) return;
+  renderGateFamilyStrip();
   const last=localStorage.getItem(USER_LAST_KEY)||"";
   el.innerHTML=allMembers().map((m,i)=>{
     const active=m===last?" active":"";
@@ -1112,8 +1159,10 @@ function renderGateMembers(){
       el.querySelectorAll(".gate-mpick").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
       document.getElementById("gateErr").textContent="";
+      updateGateSelectedName();
     };
   });
+  updateGateSelectedName();
 }
 
 /* ---------- PIN GATE ---------- */
