@@ -1,5 +1,5 @@
 /* Hisab-Khata service worker — makes the site installable & launchable offline.
-   Bump CACHE_VERSION   whenever you change index.html or assets so phones pick it up. */
+   Bump CACHE_VERSION   whenever you change the index.html or assets so phones pick it up. */
 const CACHE_VERSION = "hisab-khata-sur-v7";
 // App shell that should be available offline.
 const PRECACHE = [
