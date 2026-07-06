@@ -372,11 +372,49 @@
     color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer
   }
   .dist-mode-chips button.active{color:#fff;border-color:var(--violet);background:rgba(124,92,255,.22)}
-  .dist-month-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .dist-month-pick{display:grid;grid-template-columns:1fr;gap:12px}
   .dist-month-pick .field{margin-bottom:0}
-  .dist-month-pick label{font-size:12px;margin-bottom:5px}
+  .dist-month-pick label{font-size:12px;margin-bottom:5px;display:block;font-weight:700;color:var(--muted)}
+  .dist-month-pick label small{font-weight:600;opacity:.85}
   .dist-month-pick select{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--stroke);background:#0e1130;color:var(--text);font-family:inherit;font-size:14px;font-weight:600}
-  .dist-month-pick select:disabled{opacity:.45}
+  .dist-month-slider{padding:2px 0 4px}
+  .dist-range-label{
+    text-align:center;font-size:14px;font-weight:800;color:var(--violet);
+    margin:8px 0 16px;min-height:20px;
+  }
+  .dist-slider-track-wrap{position:relative;height:40px;margin:0 6px 10px}
+  .dist-slider-track{
+    position:absolute;top:50%;left:0;right:0;height:6px;transform:translateY(-50%);
+    background:rgba(255,255,255,.12);border-radius:999px;
+  }
+  .dist-slider-fill{
+    position:absolute;top:0;height:100%;left:0;width:100%;
+    background:linear-gradient(90deg,#7c5cff,#23a6d5);border-radius:999px;
+    transition:left .08s ease,width .08s ease;
+  }
+  .dist-slider-track-wrap input[type=range]{
+    position:absolute;top:50%;left:0;width:100%;transform:translateY(-50%);
+    margin:0;-webkit-appearance:none;appearance:none;background:transparent;
+    pointer-events:none;height:40px;
+  }
+  .dist-slider-track-wrap input[type=range]::-webkit-slider-runnable-track{background:transparent;height:6px}
+  .dist-slider-track-wrap input[type=range]::-moz-range-track{background:transparent;height:6px;border:none}
+  .dist-slider-track-wrap input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;pointer-events:all;width:24px;height:24px;border-radius:50%;
+    background:#fff;border:3px solid #7c5cff;box-shadow:0 2px 10px rgba(0,0,0,.4);cursor:grab;
+  }
+  .dist-slider-track-wrap input[type=range]::-moz-range-thumb{
+    pointer-events:all;width:24px;height:24px;border-radius:50%;
+    background:#fff;border:3px solid #7c5cff;box-shadow:0 2px 10px rgba(0,0,0,.4);cursor:grab;
+  }
+  .dist-slider-track-wrap input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.08)}
+  #distMonthFrom{z-index:3}
+  #distMonthTo{z-index:4}
+  .dist-slider-labels{
+    display:flex;justify-content:space-between;font-size:10px;color:var(--muted);
+    font-weight:700;padding:0 2px;
+  }
+  .dist-month-empty{font-size:12px;color:var(--muted);padding:10px 0;text-align:center}
   #distChartArea.hidden{display:none}
   /* ---------- RECORDS (redesigned) ---------- */
   .records-wrap{max-width:640px;margin:0 auto}
@@ -394,6 +432,13 @@
   .records-search:focus{outline:none;border-color:var(--violet)}
   .filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
   .records-period-pick{margin-top:10px}
+  .records-date-range{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+  .records-date-range input[type=date]{
+    width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--stroke);
+    background:#0e1130;color:var(--text);font-family:inherit;font-size:14px;font-weight:600;
+  }
+  .records-date-range input[type=date]:focus{outline:none;border-color:var(--violet)}
+  .records-date-range label{font-size:11px;margin-bottom:4px}
   .filter-row select{
     padding:9px 12px;border-radius:999px;border:1px solid var(--stroke);
     background:#0e1130;color:var(--text);font-family:inherit;font-size:13px;font-weight:600
@@ -433,8 +478,48 @@
     color:var(--text);cursor:pointer;font-size:14px;display:grid;place-items:center;font-family:inherit
   }
   .rec-edit:hover{border-color:var(--violet);background:rgba(124,92,255,.12)}
-
-  /* legacy record-card (unused) */
+  .rec-sum-card{
+    position:relative;border-radius:20px;margin-bottom:12px;overflow:hidden;
+    background:linear-gradient(165deg,rgba(124,92,255,.14) 0%,rgba(35,166,213,.08) 50%,rgba(15,18,38,.6) 100%);
+    border:1px solid rgba(124,92,255,.25);box-shadow:0 12px 32px rgba(0,0,0,.28);
+  }
+  .rec-sum-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,#7c5cff,#23a6d5,#34d399);
+  }
+  .rec-sum-head{
+    display:flex;align-items:center;gap:14px;padding:16px 16px 12px;
+  }
+  .rec-sum-av-wrap .rec-av{width:52px;height:52px;font-size:18px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .rec-sum-name{font-size:17px;font-weight:800;letter-spacing:-.3px}
+  .rec-sum-meta{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+  .rec-sum-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px 12px;
+  }
+  .rec-sum-stat{
+    background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08);border-radius:14px;
+    padding:10px 8px;text-align:center;
+  }
+  .rec-sum-ic{font-size:18px;display:block;margin-bottom:4px}
+  .rec-sum-lbl{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+  .rec-sum-val{display:block;font-size:14px;font-weight:800;letter-spacing:-.3px}
+  .rec-sum-stat.credit .rec-sum-val{color:var(--green)}
+  .rec-sum-stat.expense .rec-sum-val{color:var(--red)}
+  .rec-sum-stat.invest .rec-sum-val{color:var(--gold)}
+  .rec-sum-net{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 16px;background:rgba(124,92,255,.12);border-top:1px solid rgba(255,255,255,.08);
+  }
+  .rec-sum-net-lbl{font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .rec-sum-net-val{font-size:22px;font-weight:800;color:var(--violet);letter-spacing:-.5px}
+  .rec-sum-net-val.pos{color:var(--green)}
+  .rec-sum-net-val.neg{color:var(--red)}
+  @media(max-width:480px){
+    .rec-sum-stats{grid-template-columns:1fr;gap:6px}
+    .rec-sum-stat{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px}
+    .rec-sum-ic{margin:0;font-size:20px}
+    .rec-sum-lbl{margin:0;flex:1}
+  }
   .record-list{display:flex;flex-direction:column;gap:8px}
   .ins.compact{padding:10px 0}
   .ins.compact .l{font-size:14px}
@@ -829,9 +914,18 @@
             <label for="filterYear">Year</label>
             <select id="filterYear"><option value="">All years</option></select>
           </div>
-          <div class="field">
-            <label for="filterMonth">Month</label>
-            <select id="filterMonth" disabled><option value="">All months</option></select>
+          <div class="field" id="recordsDateRangeWrap">
+            <label>Date range <small id="recordsRangeHint">within selected year</small></label>
+            <div class="records-date-range">
+              <div class="field">
+                <label for="filterDateFrom">From</label>
+                <input type="date" id="filterDateFrom" />
+              </div>
+              <div class="field">
+                <label for="filterDateTo">To</label>
+                <input type="date" id="filterDateTo" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -846,7 +940,7 @@
       <div id="distPeriodWrap" class="dist-period-wrap" style="display:none">
         <div class="dist-mode-chips">
           <button type="button" class="active" data-dist-mode="all">Till Date</button>
-          <button type="button" data-dist-mode="month">By Month</button>
+          <button type="button" data-dist-mode="month">Select Months</button>
         </div>
         <div id="distMonthPick" class="dist-month-pick" style="display:none">
           <div class="field">
@@ -854,8 +948,18 @@
             <select id="distYear"><option value="">Select year</option></select>
           </div>
           <div class="field">
-            <label for="distMonth">Month</label>
-            <select id="distMonth" disabled><option value="">Select month</option></select>
+            <label>Month range <small>(drag the two handles)</small></label>
+            <div id="distMonthSlider" class="dist-month-slider">
+              <div id="distRangeLabel" class="dist-range-label">Select a year first</div>
+              <div class="dist-slider-track-wrap">
+                <div class="dist-slider-track"><div id="distRangeFill" class="dist-slider-fill"></div></div>
+                <input type="range" id="distMonthFrom" min="1" max="12" value="1" disabled aria-label="From month">
+                <input type="range" id="distMonthTo" min="1" max="12" value="12" disabled aria-label="To month">
+              </div>
+              <div class="dist-slider-labels">
+                <span>Jan</span><span>Apr</span><span>Jul</span><span>Oct</span><span>Dec</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1322,10 +1426,23 @@ function initApp(){
     };
   });
   document.getElementById("filterYear")?.addEventListener("change",()=>{
-    populateRecordsMonths(document.getElementById("filterYear").value);
+    const y=document.getElementById("filterYear").value;
+    if(!y) setupRecordsDateRange("");
+    else {
+      const cur=getCurrentMonthDateRange();
+      if(y===cur.year) setupRecordsDateRange(y, cur.from, cur.to);
+      else setupRecordsDateRange(y, `${y}-01-01`, `${y}-12-31`);
+    }
     renderRecords();
   });
-  document.getElementById("filterMonth")?.addEventListener("change", renderRecords);
+  ["filterDateFrom","filterDateTo"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("change",()=>{
+      const fromEl=document.getElementById("filterDateFrom");
+      const toEl=document.getElementById("filterDateTo");
+      if(fromEl?.value&&toEl?.value&&fromEl.value>toEl.value) toEl.value=fromEl.value;
+      renderRecords();
+    });
+  });
 
   // edit modal wiring
   document.getElementById("editForm").addEventListener("submit", saveEdit);
@@ -1350,11 +1467,22 @@ function initApp(){
   document.getElementById("historyModal").addEventListener("click",e=>{ if(e.target.id==="historyModal") closeHistory(); });
   document.getElementById("familyModal").addEventListener("click",e=>{ if(e.target.id==="familyModal") closeFamily(); });
   document.getElementById("distYear")?.addEventListener("change",()=>{
-    populateDistMonths(document.getElementById("distYear").value);
-    if(distMode==="expense") renderExpenseDist();
+    setupDistMonthSlider(document.getElementById("distYear").value);
+    renderDistBreakdown();
   });
-  document.getElementById("distMonth")?.addEventListener("change",()=>{
-    if(distMode==="expense") renderExpenseDist();
+  document.getElementById("distMonthFrom")?.addEventListener("input",()=>{
+    const fromEl=document.getElementById("distMonthFrom");
+    const toEl=document.getElementById("distMonthTo");
+    if(parseInt(fromEl.value,10)>parseInt(toEl.value,10)) toEl.value=fromEl.value;
+    updateDistSliderUI();
+    renderDistBreakdown();
+  });
+  document.getElementById("distMonthTo")?.addEventListener("input",()=>{
+    const fromEl=document.getElementById("distMonthFrom");
+    const toEl=document.getElementById("distMonthTo");
+    if(parseInt(toEl.value,10)<parseInt(fromEl.value,10)) fromEl.value=toEl.value;
+    updateDistSliderUI();
+    renderDistBreakdown();
   });
   document.querySelectorAll("[data-dist-mode]").forEach(b=>{
     b.onclick=()=>{
@@ -1362,7 +1490,7 @@ function initApp(){
       b.classList.add("active");
       distExpenseMode=b.dataset.distMode;
       document.getElementById("distMonthPick").style.display=distExpenseMode==="month"?"grid":"none";
-      if(distMode==="expense") renderExpenseDist();
+      renderDistBreakdown();
     };
   });
   document.querySelectorAll(".stat.clickable").forEach(el=>{
@@ -1558,7 +1686,91 @@ function afterSave(f,msg){
 }
 
 /* ---------- RENDER ---------- */
-function renderAll(){ renderFamily(); renderDash(); renderAssets(); populateRecordsYears(); renderRecords(); }
+function renderAll(){
+  renderFamily(); renderDash(); renderAssets();
+  initRecordsDateFilter();
+  renderRecords();
+}
+function toISODate(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function getCurrentMonthDateRange(){
+  const now=new Date();
+  const y=now.getFullYear(), m=now.getMonth();
+  return {
+    year:String(y),
+    from:toISODate(new Date(y,m,1)),
+    to:toISODate(new Date(y,m+1,0))
+  };
+}
+function initRecordsDateFilter(){
+  populateRecordsYears();
+  const cur=getCurrentMonthDateRange();
+  const yearSel=document.getElementById("filterYear");
+  if(yearSel&&!yearSel.value){
+    const years=[...yearSel.options].map(o=>o.value).filter(Boolean);
+    yearSel.value=years.includes(cur.year)?cur.year:(years[0]||"");
+  }
+  const y=yearSel?.value||"";
+  if(y===cur.year) setupRecordsDateRange(y, cur.from, cur.to);
+  else if(y) setupRecordsDateRange(y, `${y}-01-01`, `${y}-12-31`);
+  else setupRecordsDateRange("");
+}
+function populateRecordsYears(){
+  const sel=document.getElementById("filterYear"); if(!sel) return;
+  const cur=sel.value;
+  const years=new Set();
+  DATA.forEach(d=>{
+    const dt=parseEntryDate(d.date);
+    if(dt) years.add(String(dt.getFullYear()));
+  });
+  const cy=String(new Date().getFullYear());
+  if(!years.has(cy)) years.add(cy);
+  sel.innerHTML='<option value="">All years</option>'+[...years].sort().reverse().map(y=>`<option value="${y}">${y}</option>`).join("");
+  if(cur&&[...years].includes(cur)) sel.value=cur;
+}
+function setupRecordsDateRange(year, fromDate, toDate){
+  const wrap=document.getElementById("recordsDateRangeWrap");
+  const fromEl=document.getElementById("filterDateFrom");
+  const toEl=document.getElementById("filterDateTo");
+  const hint=document.getElementById("recordsRangeHint");
+  if(!fromEl||!toEl) return;
+  if(!year){
+    if(wrap) wrap.style.opacity=".45";
+    fromEl.disabled=true; toEl.disabled=true;
+    fromEl.value=""; toEl.value="";
+    if(hint) hint.textContent="select a year to filter by dates";
+    return;
+  }
+  if(wrap) wrap.style.opacity="1";
+  fromEl.disabled=false; toEl.disabled=false;
+  const min=`${year}-01-01`, max=`${year}-12-31`;
+  fromEl.min=min; fromEl.max=max;
+  toEl.min=min; toEl.max=max;
+  fromEl.value=(fromDate&&fromDate>=min&&fromDate<=max)?fromDate:min;
+  toEl.value=(toDate&&toDate>=min&&toDate<=max)?toDate:max;
+  if(fromEl.value>toEl.value) toEl.value=fromEl.value;
+  if(hint) hint.textContent=`within ${year}`;
+}
+function getRecordsDateRange(){
+  const y=document.getElementById("filterYear")?.value;
+  if(!y) return null;
+  const from=document.getElementById("filterDateFrom")?.value;
+  const to=document.getElementById("filterDateTo")?.value;
+  if(!from||!to) return undefined;
+  return {from, to};
+}
+function formatRecordsDateRangeLabel(range){
+  if(!range) return "";
+  return `${fmtDate(range.from)} – ${fmtDate(range.to)}`;
+}
+function recordInDateRange(r, range){
+  if(!range) return true;
+  const dt=parseEntryDate(r.date);
+  if(!dt) return false;
+  const d=toISODate(dt);
+  return d>=range.from && d<=range.to;
+}
 
 // circular avatar markup: photo if available, else coloured initial
 function avatarHTML(m, i, cls){
@@ -1866,82 +2078,131 @@ function openNetworth(){
 }
 function closeNetworth(){ document.getElementById("networthModal").classList.remove("open"); }
 
-function getExpenseByCategory(mk){
+function getExpenseByCategory(monthKeys){
   let rows=DATA.filter(d=>d.flow==="Expense");
-  if(mk) rows=rows.filter(d=>monthKey(d.date)===mk);
+  if(monthKeys&&monthKeys.length){
+    const set=new Set(monthKeys);
+    rows=rows.filter(d=>set.has(monthKey(d.date)));
+  }
   const ex={};
   rows.forEach(d=>ex[d.category]=(ex[d.category]||0)+d.amount);
   return ex;
 }
 const MONTH_NAMES=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-function populateRecordsYears(){
-  const sel=document.getElementById("filterYear"); if(!sel) return;
-  const cur=sel.value;
-  const years=new Set();
-  DATA.forEach(d=>{
-    const dt=parseEntryDate(d.date);
-    if(dt) years.add(String(dt.getFullYear()));
+function memberSumCardHTML(fm, rows){
+  let credit=0, expense=0, invest=0;
+  rows.forEach(r=>{
+    if(r.flow==="Credit") credit+=r.amount;
+    else if(r.flow==="Expense") expense+=r.amount;
+    else if(r.flow==="Investment") invest+=r.amount;
   });
-  sel.innerHTML='<option value="">All years</option>'+[...years].sort().reverse().map(y=>`<option value="${y}">${y}</option>`).join("");
-  if(cur&&years.has(cur)) sel.value=cur;
+  const net=credit-expense-invest;
+  const mi=memberIndex(fm);
+  const netCls=net>0?"pos":net<0?"neg":"";
+  return `<div class="rec-sum-card">
+    <div class="rec-sum-head">
+      <div class="rec-sum-av-wrap">${avatarHTML(fm, mi, "rec-av")}</div>
+      <div>
+        <div class="rec-sum-name">${fm}</div>
+        <div class="rec-sum-meta">${rows.length} entr${rows.length===1?"y":"ies"} in this view</div>
+      </div>
+    </div>
+    <div class="rec-sum-stats">
+      <div class="rec-sum-stat credit"><span class="rec-sum-ic">🪙</span><span class="rec-sum-lbl">Credit</span><span class="rec-sum-val">${fmt(credit)}</span></div>
+      <div class="rec-sum-stat expense"><span class="rec-sum-ic">🧾</span><span class="rec-sum-lbl">Expense</span><span class="rec-sum-val">${fmt(expense)}</span></div>
+      <div class="rec-sum-stat invest"><span class="rec-sum-ic">📈</span><span class="rec-sum-lbl">Saving</span><span class="rec-sum-val">${fmt(invest)}</span></div>
+    </div>
+    <div class="rec-sum-net">
+      <span class="rec-sum-net-lbl">💎 Net balance</span>
+      <span class="rec-sum-net-val ${netCls}">${fmt(net)}</span>
+    </div>
+  </div>`;
 }
-function populateRecordsMonths(year){
-  const sel=document.getElementById("filterMonth"); if(!sel) return;
-  const cur=sel.value;
-  if(!year){
-    sel.innerHTML='<option value="">All months</option>';
-    sel.disabled=true;
-    sel.value="";
-    return;
+function getContributionsByMember(monthKeys){
+  let rows=DATA.filter(d=>d.flow==="Credit");
+  if(monthKeys&&monthKeys.length){
+    const set=new Set(monthKeys);
+    rows=rows.filter(d=>set.has(monthKey(d.date)));
   }
-  const months=new Set();
-  DATA.forEach(d=>{
-    const mk=monthKey(d.date);
-    if(mk&&mk.startsWith(year+"-")) months.add(mk.slice(5,7));
-  });
-  sel.innerHTML='<option value="">All months</option>'+[...months].sort().map(m=>{
-    const idx=parseInt(m,10)-1;
-    return `<option value="${m}">${MONTH_NAMES[idx]||m}</option>`;
-  }).join("");
-  sel.disabled=false;
-  sel.value=(cur&&months.has(cur))?cur:"";
+  return CONFIG.MEMBERS.map(m=>rows.filter(d=>d.member===m).reduce((a,b)=>a+b.amount,0));
+}
+function getCurrentMonthParts(){
+  const now=new Date();
+  return { year:String(now.getFullYear()), month:now.getMonth()+1 };
+}
+function setDistModeChipLabels(creditView){
+  const btns=document.querySelectorAll("[data-dist-mode]");
+  if(btns[0]) btns[0].textContent="Till Date";
+  if(btns[1]) btns[1].textContent="Select Months";
 }
 function populateDistYears(){
   const sel=document.getElementById("distYear"); if(!sel) return;
+  const flow=distMode==="credit"?"Credit":"Expense";
   const years=new Set();
-  DATA.filter(d=>d.flow==="Expense").forEach(d=>{
-    const y=(d.date||"").slice(0,4);
-    if(y) years.add(y);
+  DATA.filter(d=>d.flow===flow).forEach(d=>{
+    const mk=monthKey(d.date);
+    if(mk) years.add(mk.slice(0,4));
   });
   sel.innerHTML='<option value="">Select year</option>'+[...years].sort().reverse().map(y=>`<option value="${y}">${y}</option>`).join("");
 }
-function populateDistMonths(year){
-  const sel=document.getElementById("distMonth"); if(!sel) return;
+function setupDistMonthSlider(year, fromMonth, toMonth){
+  const fromEl=document.getElementById("distMonthFrom");
+  const toEl=document.getElementById("distMonthTo");
+  const label=document.getElementById("distRangeLabel");
+  if(!fromEl||!toEl) return;
   if(!year){
-    sel.innerHTML='<option value="">Select month</option>';
-    sel.disabled=true;
-    sel.value="";
+    fromEl.disabled=true; toEl.disabled=true;
+    if(label) label.textContent="Select a year first";
     return;
   }
-  const months=new Set();
-  DATA.filter(d=>d.flow==="Expense"&&(d.date||"").startsWith(year)).forEach(d=>{
-    const m=(d.date||"").slice(5,7);
-    if(m) months.add(m);
-  });
-  sel.innerHTML='<option value="">Select month</option>'+[...months].sort().map(m=>{
-    const idx=parseInt(m,10)-1;
-    return `<option value="${m}">${MONTH_NAMES[idx]||m}</option>`;
-  }).join("");
-  sel.disabled=false;
-  sel.value="";
+  fromEl.disabled=false; toEl.disabled=false;
+  fromEl.value=fromMonth??1;
+  toEl.value=toMonth??12;
+  updateDistSliderUI();
 }
-function getDistExpensePeriod(){
-  if(distExpenseMode==="all") return "";
+function updateDistSliderUI(){
+  const fromEl=document.getElementById("distMonthFrom");
+  const toEl=document.getElementById("distMonthTo");
+  const fill=document.getElementById("distRangeFill");
+  const label=document.getElementById("distRangeLabel");
+  const year=document.getElementById("distYear")?.value;
+  if(!fromEl||!toEl||fromEl.disabled||!year) return;
+  let from=parseInt(fromEl.value,10), to=parseInt(toEl.value,10);
+  if(from>to){ to=from; toEl.value=from; }
+  const pct=v=>((v-1)/11)*100;
+  if(fill){
+    fill.style.left=pct(from)+"%";
+    fill.style.width=(pct(to)-pct(from))+"%";
+  }
+  if(label) label.textContent=`${MONTH_NAMES[from-1]} – ${MONTH_NAMES[to-1]} ${year}`;
+}
+function getSelectedDistMonths(){
+  if(distExpenseMode==="all") return null;
   const y=document.getElementById("distYear")?.value;
-  const m=document.getElementById("distMonth")?.value;
-  if(!y||!m) return null;
-  return `${y}-${m}`;
+  if(!y) return undefined;
+  const fromEl=document.getElementById("distMonthFrom");
+  const toEl=document.getElementById("distMonthTo");
+  if(!fromEl||fromEl.disabled) return undefined;
+  let from=parseInt(fromEl.value,10), to=parseInt(toEl.value,10);
+  if(from>to) [from,to]=[to,from];
+  const keys=[];
+  for(let m=from;m<=to;m++) keys.push(`${y}-${String(m).padStart(2,"0")}`);
+  return keys;
 }
+function formatDistPeriodLabel(monthKeys){
+  if(!monthKeys||!monthKeys.length) return "";
+  const y=monthKeys[0].slice(0,4);
+  const names=monthKeys.map(k=>MONTH_NAMES[parseInt(k.slice(5,7),10)-1]||k.slice(5,7));
+  if(names.length===1) return `${names[0]} ${y}`;
+  if(names.length<=3) return `${names.join(", ")} ${y}`;
+  return `${names[0]} – ${names[names.length-1]} ${y} (${names.length} months)`;
+}
+function renderDistBreakdown(){
+  if(distMode==="credit") renderCreditDist();
+  else if(distMode==="expense") renderExpenseDist();
+}
+function getDistPeriod(){ return getSelectedDistMonths(); }
+function getDistExpensePeriod(){ return getSelectedDistMonths(); }
 function showDistPlaceholder(msg){
   const area=document.getElementById("distChartArea");
   const leg=document.getElementById("distLegend");
@@ -1952,13 +2213,20 @@ function showDistPlaceholder(msg){
 function renderExpenseDist(){
   const leg=document.getElementById("distLegend");
   const area=document.getElementById("distChartArea");
-  const period=getDistExpensePeriod();
-  if(period===null){
-    showDistPlaceholder("Select both year and month to view the breakdown.");
+  const title=document.getElementById("distTitle");
+  const monthKeys=getSelectedDistMonths();
+  if(monthKeys===undefined){
+    showDistPlaceholder("Select a year and drag the month range.");
+    if(title) title.textContent="Expenses by Category";
     return;
   }
   if(area) area.classList.remove("hidden");
-  const ex=getExpenseByCategory(period);
+  if(title){
+    title.textContent=monthKeys&&monthKeys.length
+      ? `Expenses by Category · ${formatDistPeriodLabel(monthKeys)}`
+      : "Expenses by Category · Till Date";
+  }
+  const ex=getExpenseByCategory(monthKeys);
   const exK=Object.keys(ex).sort((a,b)=>ex[b]-ex[a]);
   if(!exK.length){
     if(area) area.classList.remove("hidden");
@@ -1979,35 +2247,72 @@ function renderExpenseDist(){
   setTimeout(()=>{ if(charts.chartDist) charts.chartDist.resize(); }, 80);
 }
 
+function renderCreditDist(){
+  const leg=document.getElementById("distLegend");
+  const area=document.getElementById("distChartArea");
+  const title=document.getElementById("distTitle");
+  const monthKeys=getSelectedDistMonths();
+  if(monthKeys===undefined){
+    showDistPlaceholder("Select a year and drag the month range.");
+    if(title) title.textContent="Contributions by Member";
+    return;
+  }
+  if(area) area.classList.remove("hidden");
+  const memC=getContributionsByMember(monthKeys);
+  const total=memC.reduce((a,b)=>a+b,0);
+  if(title){
+    title.textContent=monthKeys&&monthKeys.length
+      ? `Contributions by Member · ${formatDistPeriodLabel(monthKeys)}`
+      : "Contributions by Member · Till Date";
+  }
+  if(!total){
+    drawDoughnut("chartDist",["No data"],[1],["rgba(255,255,255,.08)"],{hideLegend:true});
+    leg.innerHTML=`<div class="empty" style="padding:20px">No contributions for this period.</div>`;
+    setTimeout(()=>{ if(charts.chartDist) charts.chartDist.resize(); }, 80);
+    return;
+  }
+  drawDoughnut("chartDist", CONFIG.MEMBERS, memC, CONFIG.MEMBERS.map((_,i)=>MEMBER_COLORS[i%MEMBER_COLORS.length]), {hideLegend:true});
+  leg.innerHTML='<div class="member-legend">'+CONFIG.MEMBERS.map((m,i)=>{
+    const url=photoOf(m), color=MEMBER_COLORS[i%MEMBER_COLORS.length];
+    const inner=url?`<img src="${url}" alt="${m}" onerror="this.style.display='none';this.parentNode.textContent='${m[0]}'">`:m[0];
+    return `<div class="ml-item"><span class="ml-pic" style="border-color:${color};background:${color}">${inner}</span><span>${m}<small>${fmt(memC[i])}</small></span></div>`;
+  }).join("")+'</div>';
+  setTimeout(()=>{ if(charts.chartDist) charts.chartDist.resize(); }, 80);
+}
+
 function openDist(type){
   const modal=document.getElementById("distModal");
   const title=document.getElementById("distTitle");
   const periodWrap=document.getElementById("distPeriodWrap");
   distMode=type;
   if(type==="credit"){
-    periodWrap.style.display="none";
-    title.textContent="Contributions by Member";
-    const leg=document.getElementById("distLegend");
-    const memC=CONFIG.MEMBERS.map(m=>DATA.filter(d=>d.member===m&&d.flow==="Credit").reduce((a,b)=>a+b.amount,0));
-    drawDoughnut("chartDist", CONFIG.MEMBERS, memC, CONFIG.MEMBERS.map((_,i)=>MEMBER_COLORS[i%MEMBER_COLORS.length]), {hideLegend:true});
-    leg.innerHTML='<div class="member-legend">'+CONFIG.MEMBERS.map((m,i)=>{
-      const url=photoOf(m), color=MEMBER_COLORS[i%MEMBER_COLORS.length];
-      const inner=url?`<img src="${url}" alt="${m}" onerror="this.style.display='none';this.parentNode.textContent='${m[0]}'">`:m[0];
-      return `<div class="ml-item"><span class="ml-pic" style="border-color:${color};background:${color}">${inner}</span><span>${m}<small>${fmt(memC[i])}</small></span></div>`;
-    }).join("")+'</div>';
+    periodWrap.style.display="block";
+    distExpenseMode="month";
+    setDistModeChipLabels(true);
+    document.querySelectorAll("[data-dist-mode]").forEach(b=>{
+      b.classList.toggle("active", b.dataset.distMode==="month");
+    });
+    document.getElementById("distMonthPick").style.display="grid";
+    populateDistYears();
+    const {year,month}=getCurrentMonthParts();
+    const yearSel=document.getElementById("distYear");
+    const years=[...yearSel.options].map(o=>o.value).filter(Boolean);
+    yearSel.value=years.includes(year)?year:(years[0]||"");
+    setupDistMonthSlider(yearSel.value, month, month);
+    renderCreditDist();
     modal.classList.add("open");
-    setTimeout(()=>{ if(charts.chartDist) charts.chartDist.resize(); }, 80);
   } else {
     periodWrap.style.display="block";
     title.textContent="Expenses by Category";
     distExpenseMode="all";
+    setDistModeChipLabels(false);
     document.querySelectorAll("[data-dist-mode]").forEach(b=>{
       b.classList.toggle("active", b.dataset.distMode==="all");
     });
     document.getElementById("distMonthPick").style.display="none";
     populateDistYears();
     document.getElementById("distYear").value="";
-    populateDistMonths("");
+    setupDistMonthSlider("");
     renderExpenseDist();
     modal.classList.add("open");
   }
@@ -2120,29 +2425,41 @@ function renderRecords(){
   const fm=document.getElementById("filterMember").value;
   const ff=document.querySelector("#flowChips button.active")?.dataset.flow||"";
   const ft=document.getElementById("filterText").value.toLowerCase();
-  const fy=document.getElementById("filterYear")?.value||"";
-  const fmo=document.getElementById("filterMonth")?.value||"";
+  const dateRange=getRecordsDateRange();
   let rows=[...DATA].sort((a,b)=>(b.date||"").localeCompare(a.date||"")||b.id.localeCompare(a.id));
   if(fm)rows=rows.filter(r=>r.member===fm);
   if(ff)rows=rows.filter(r=>r.flow===ff);
   if(ft)rows=rows.filter(r=>(r.category+" "+r.note+" "+(r.account||"")).toLowerCase().includes(ft));
-  if(fy&&fmo) rows=rows.filter(r=>monthKey(r.date)===`${fy}-${fmo}`);
+  if(dateRange===undefined){
+    const list=document.getElementById("recordsList");
+    if(fm) list.innerHTML=memberSumCardHTML(fm,[])+`<div class="empty">Select start and end dates.</div>`;
+    else list.innerHTML=`<div class="empty">Select start and end dates.</div>`;
+    return;
+  }
+  if(dateRange) rows=rows.filter(r=>recordInDateRange(r, dateRange));
 
   const countEl=document.getElementById("recordsCount");
   if(countEl){
     let label=rows.length+" entr"+(rows.length===1?"y":"ies");
     if(rows.length!==DATA.length) label+=" (filtered)";
-    if(fy&&fmo) label+=" · "+prettyMonth(`${fy}-${fmo}`);
+    if(dateRange) label+=" · "+formatRecordsDateRangeLabel(dateRange);
     countEl.textContent=label;
   }
 
   const list=document.getElementById("recordsList");
+  let html="";
+  if(fm) html+=memberSumCardHTML(fm, rows);
+
   if(!rows.length){
-    const hint=(fy&&fmo)?`No records for ${prettyMonth(`${fy}-${fmo}`)}.`:"No records match your filters.";
-    list.innerHTML=`<div class="empty">${hint}</div>`;return;
+    const hint=dateRange
+      ?`No records for ${formatRecordsDateRangeLabel(dateRange)}.`
+      :"No records match your filters.";
+    html+=`<div class="empty">${hint}</div>`;
+    list.innerHTML=html;
+    return;
   }
 
-  let html="", lastMonth="";
+  let lastMonth="";
   rows.forEach(r=>{
     const mk=monthKey(r.date);
     if(mk&&mk!==lastMonth){
